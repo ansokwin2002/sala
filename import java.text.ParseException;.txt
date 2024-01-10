@@ -1,0 +1,57 @@
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class IDCardInfoParser {
+
+    public static void main(String[] args) {
+        String idCardString = "IDKHM1603633111<<<<<<<<<<<,9501016M2406215KHM<<<<<<<<<<<6,MEN<<CHENDA<<<<<<<<<<<<<<<<";
+        parseIDCard(idCardString);
+    }
+
+    public static void parseIDCard(String idCardString) {
+        if (idCardString.length() >= 44) {
+            String idNumber = idCardString.substring(5, 14);
+            String dateOfBirthString = idCardString.substring(14, 20);
+            String gender = idCardString.substring(20, 21);
+            String lastNameEn = idCardString.substring(21, 24);
+            String firstNameEn = idCardString.substring(25, 31);
+            String expiredDateString = idCardString.substring(31, 37);
+
+            System.out.println("str1=\"" + idNumber + "\"");
+            System.out.println("str2=\"" + parseDateOfBirth(dateOfBirthString) + "\"");
+            System.out.println("str3=\"" + gender + "\"");
+            System.out.println("str4=\"" + lastNameEn + "\"");
+            System.out.println("str5=\"" + firstNameEn + "\"");
+            System.out.println("str6=\"" + parseExpiryDate(expiredDateString) + "\"");
+        } else {
+            System.out.println("Invalid ID card string length");
+        }
+    }
+
+    public static String parseDateOfBirth(String dateString) {
+        SimpleDateFormat formatInput = new SimpleDateFormat("yyMMdd");
+        SimpleDateFormat formatOutput = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date date = formatInput.parse(dateString);
+            return formatOutput.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "Invalid Date";
+        }
+    }
+
+    public static String parseExpiryDate(String dateString) {
+        SimpleDateFormat formatInput = new SimpleDateFormat("yyMMdd");
+        SimpleDateFormat formatOutput = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            Date date = formatInput.parse(dateString);
+            return formatOutput.format(date);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            return "Invalid Date";
+        }
+    }
+}
